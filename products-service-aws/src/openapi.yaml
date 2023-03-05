@@ -1,20 +1,19 @@
 openapi: 3.0.1
 info:
-  title: E-Games API
-  description: E-Games API
+  title: Makeup Shop
+  description: Makeup Shop
   version: 1.0.0
 servers:
-- url: https://3ki6jep1cg.execute-api.eu-central-1.amazonaws.com/dev/
+  - url: https://3ki6jep1cg.execute-api.eu-central-1.amazonaws.com/dev/
 tags:
-- name: Product
-  description: Products
+  - name: Product
+    description: Products
 paths:
   /products:
     get:
       tags:
-      - Product
-      summary: Get all products
-      operationId: getProducts
+        - Product
+      summary: Get list of products
       responses:
         200:
           description: successful operation
@@ -23,46 +22,95 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Product'
+                  $ref: '#/components/schemas/ProductResponse'
+    post:
+      tags:
+        - Product
+      summary: Add new product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+      responses:
+        201:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
   /products/{id}:
     get:
       tags:
-      - Product
-      summary: Find product by ID
-      description: Returns a single pet
-      operationId: getPetById
+        - Product
+      summary: Return product by ID
+      description: Returns one product
       parameters:
-      - name: id
-        in: path
-        description: ID of a product to return
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - name: id
+          in: path
+          description: ID of a product which will return
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         200:
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/ProductResponse'
         404:
           description: Product not found
           content: {}
 components:
   schemas:
-    Product:
+    ProductResponse:
       type: object
       properties:
         id:
           type: string
+          format: uuid
         count:
           type: integer
+          minimum: 0
         description:
           type: string
+          maxLength: 1000
         price:
           type: integer
+          minimum: 0
         title:
           type: string
-      xml:
-        name: Product
+          maxLength: 255
+        imgSrc:
+          type: string
+          maxLength: 500
+          description: Link to an image
+    NewProduct:
+      type: object
+      properties:
+        count:
+          type: integer
+          minimum: 0
+        description:
+          type: string
+          maxLength: 1000
+        price:
+          type: integer
+          minimum: 0
+        title:
+          type: string
+          maxLength: 255
+        imgSrc:
+          type: string
+          maxLength: 500
+          description: Link to an image
+      required:
+            - title
+            - price
+            - count
