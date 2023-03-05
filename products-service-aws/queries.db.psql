@@ -1,0 +1,30 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE products (
+	id uuid DEFAULT uuid_generate_v4(),
+	title varchar(255) NOT NULL,
+	description varchar(1000),
+	price integer,
+    img_src varchar(400)
+);
+
+ALTER TABLE products ADD CONSTRAINT uniquectm_const UNIQUE (id);
+
+CREATE TABLE stocks (
+	product_id uuid NOT NULL,
+	count integer NOT NULL,
+	CONSTRAINT fk_product_id
+		FOREIGN KEY(product_id)
+			REFERENCES products(id)
+			ON DELETE CASCADE
+			ON UPDATE CASCADE
+);
+
+INSERT INTO products (title, description, price, img_src) VALUES
+	('Versace Bright Crystal', 'The chic and luxury of sunny Italy, the sparkle of jewels on beautiful secular ladies, the extraordinary atmosphere of an eternal holiday - this is a perfume composition created in 2006 by the Versace fashion house and called Bright Crystal. Eau de toilette has become a wonderful addition to one of the most popular trends in the art of fragrances - floral.', 80.55, 'https://u.makeup.com.ua/d/dx/dxvd4ldownjs.jpg'),
+	('Dior Sauvage', 'Indomitable in character, a glass of eau de toilette was created specifically for rebellious personalities. Top notes of Sauvage are carried by fresh and sparkling bergamot, which gives way to the "heart" burning sichuan pepper. On the body, eau de toilette opens with an ambroxan base.', 100.45, 'https://u.makeup.com.ua/r/rg/rgv5ak2wrqgo.jpg'),
+	('Escentric Molecules Molecule 02', 'Escentric Molecules has worked especially for you to create Molecule 02 Eau de Toilette. They have forged it from the finest woods. Decorated with vibrant florals. And generously flavored with musky painting. The main chord of the perfumery product sounds echoes of the majestic red rose, orchid and jasmine.', 95, 'https://u.makeup.com.ua/z/za/zaziao08jsnt.jpg'),
+	('Dolce & Gabbana Imperatrice', 'Eau de toilette D&G Anthology L`Imperatrice 3 is a mystery fragrance, magic fragrance and luxury of exotic distant lands. This fragrance is chosen by young women who follow fashion trends and love delicate, fresh perfume compositions. Top notes - an explosive cocktail of juicy exotic fruits with a subtle and "graceful" note of pink pepper.', 150.55, 'https://u.makeup.com.ua/0/0r/0rnxe4on6syw.jpg'),
+	('Trussardi Donna Trussardi 2011', 'The opening accords of Donna Trussardi 2011 captivate with the freshness of lemon and the astringency of ripe yuzu, with juicy fruity tints. The gentle and feminine fragrance of a magical floral bouquet in the heart of the perfume envelops the honey sweetness of jasmine, the luxurious scent of lotus and the delicate sound of orange blossoms. Oriental motives can be traced in sensual woody accords of sandalwood, white cedar and patchouli, enveloped in a creamy cloud of vanilla.', 180.2, 'https://u.makeup.com.ua/6/6y/6ytday55mst0.jpg'),
+	('Ariana Grande Thank U, Next', 'Ariana Grande Thank U, Next is a floral fruity fragrance for women. A composition that combines fruity aromas and wonderful sweet nuances. The captivating opening of the fragrance combines champagne white pear with fruity accords of raspberry. Playful heart with rose petals and coconut. A rich and velvety soft base created by musk and the sweetness of crunchy pasta cakes.', 150.55, 'https://u.makeup.com.ua/3/3x/3xal9mw8wogi.jpg'),
+	('Blue Seduction Antonio Banderas', 'From the first chords of the Blue Seduction Antonio Banderas fragrance, you understand that this is the perfect men perfume. It is light and modern. Its nobility and elegance in notes of coolness and freshness. Bright sensuality and seductive tenderness - such associations will be evoked by the unique trail of Blue Seduction.It is a sparkling aquatic nectar that starts with the cool freshness of fragrant citrus and ends with a combination of currant and mint.', 40, 'https://u.makeup.com.ua/h/hm/hm1kyyxgp2jd.jpg');
