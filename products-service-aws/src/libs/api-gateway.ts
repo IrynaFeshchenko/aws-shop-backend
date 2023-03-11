@@ -13,13 +13,19 @@ export type ValidatedEventAPIGatewayProxyEvent<S> = Handler<
   APIGatewayProxyResult
 >;
 
-export class ResponseBuilder<T> {
+interface ErrorResponseBody {
+  error?: string;
+}
+
+export class ResponseBuilder<T = ErrorResponseBody> {
   #response: APIGatewayProxyResult = {
     body: null,
     statusCode: 200,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": true,
+      "Access-Control-Allow-Methods": "*",
+      "Access-Control-Allow-Headers": "*",
     },
   };
 
@@ -31,7 +37,7 @@ export class ResponseBuilder<T> {
     return this.#response;
   }
 
-  setHeaderRequest(key: string, value: any): ResponseBuilder<T> {
+  setHeader(key: string, value: any): ResponseBuilder<T> {
     this.#response.headers[key] = value;
     return this;
   }
@@ -49,6 +55,8 @@ export const formatJSONResponse = (response: any) => {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": true,
+      "Access-Control-Allow-Methods": "*",
+      "Access-Control-Allow-Headers": "*",
     },
   };
 };
@@ -57,7 +65,7 @@ export async function returnStatusErrors(
   lambdaProxyIntegration: () => Promise<APIGatewayProxyResult>
 ): Promise<APIGatewayProxyResult> {
   try {
-    return lambdaProxyIntegration();
+    return await lambdaProxyIntegration();
   } catch (err) {
     console.error(err);
     return {
