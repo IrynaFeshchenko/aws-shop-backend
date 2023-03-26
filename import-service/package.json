@@ -12,12 +12,17 @@
   "dependencies": {
     "@middy/core": "^2.5.3",
     "@middy/http-json-body-parser": "^2.5.3",
+    "@types/pg": "^8.6.6",
     "aws-sdk": "^2.1156.0",
+    "class-validator": "^0.14.0",
     "csv-parser": "^3.0.0",
     "i": "^0.3.7",
     "npm": "^9.6.1",
+    "pg": "^8.10.0",
     "serverless-dotenv-plugin": "^4.0.2",
     "source-map-support": "^0.5.21",
+    "typeorm": "^0.3.12",
+    "typeorm-naming-strategies": "^4.1.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
